@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import os
 
 
 def get_zodiac_sign(day, month):
@@ -52,11 +53,17 @@ def main():
         "zodiac_sign": zodiac_sign
         }
 
-        with open(f"database/{personName}.json", "w") as file:
-            data = json.dumps(database)
-            file.write(data)
-            st.success("File created successfully!")
-
+        if not os.path.exists('./database'):
+            os.mkdir('./database')
+            with open(f"database/{personName}.json", "w") as file:
+                data = json.dumps(database)
+                file.write(data)
+                st.success("File created successfully!")
+        else:
+            with open(f"database/{personName}.json", "w") as file:
+                data = json.dumps(database)
+                file.write(data)
+                st.success("File updated successfully!")
 
 
 if __name__ == "__main__":
